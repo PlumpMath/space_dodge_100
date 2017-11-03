@@ -1,0 +1,86 @@
+-- Original sizes
+-- Character: 8 pixels tall, 6 pixels wide
+-- Screen: 64 pixels tall (8 characters)
+
+-- Constants
+
+scale = 10
+char_width = 6
+char_height = 8
+window_cols = 6
+window_rows = 8
+block_rows = 7
+
+-- Love stuff
+
+function love.load()
+  -- Set up window
+  love.window.setMode(6 * char_width * scale, 8 * char_height * scale)
+  love.window.setTitle("Space Dodge")
+  love.graphics.setDefaultFilter("nearest", "nearest") -- no blurring
+
+  -- Initialize ship
+
+  ship = {
+    x = window_cols / 2;
+    y = window_rows;
+    image = love.graphics.newImage("images/ship.png")
+  }
+
+  -- Set up blocks
+
+  block_image = love.graphics.newImage("images/block.png")
+
+  blocks = {}
+
+  for y = 1, block_rows do
+    blocks[y] = {}
+
+    for x = 1, window_cols do
+      blocks[y][x] = false
+    end
+  end
+end
+
+function love.draw()
+  -- Draw blocks
+
+  for y = 1, block_rows do
+    for x = 1, window_cols do
+      if blocks[y][x] then
+        draw_object(block_image, x, y)
+      end
+    end
+  end
+
+  -- Draw ship
+
+  draw_object(ship.image, ship.x, ship.y)
+end
+
+function love.keypressed(key)
+  if key == "right" and ship.x < window_cols then
+    ship.x = ship.x + 1
+  elseif key == "left" and ship.x > 1 then
+    ship.x = ship.x - 1
+  elseif key == "up" and ship.y > 1 then
+    ship.y = ship.y - 1
+  elseif key == "down" and ship.y < window_rows then
+    ship.y = ship.y + 1
+  elseif key == "escape" then
+    love.event.push("quit")
+  end
+end
+
+-- Helpers
+
+function draw_object(image, x, y)
+  -- Scale coordinates
+
+  x = (x - 1) * char_width * scale
+  y = (y - 1) * char_height * scale
+
+  -- Draw image
+
+  love.graphics.draw(image, x, y, 0, scale, scale)
+end
