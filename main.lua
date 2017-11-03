@@ -42,6 +42,10 @@ function love.load()
     end
   end
 
+  -- Background
+
+  background = love.graphics.newImage("images/background.png")
+
   -- Time
 
   total_time = 0
@@ -49,6 +53,10 @@ function love.load()
 end
 
 function love.draw()
+  -- Draw background
+
+  love.graphics.draw(background)
+
   -- Draw blocks
 
   for y = 1, block_rows do
