@@ -11,6 +11,8 @@ window_cols = 6
 window_rows = 8
 block_rows = 8
 block_probability = 20
+empty_c = 0
+block_c = 1
 
 -- Love stuff
 
@@ -38,7 +40,7 @@ function love.load()
     blocks[y] = {}
 
     for x = 1, window_cols do
-      blocks[y][x] = false
+      blocks[y][x] = empty_c
     end
   end
 
@@ -61,7 +63,7 @@ function love.draw()
 
   for y = 1, block_rows do
     for x = 1, window_cols do
-      if blocks[y][x] then
+      if blocks[y][x] == block_c then
         draw_object(block_image, x, y)
       end
     end
@@ -122,6 +124,10 @@ function update_blocks()
   -- Update first row randomly
 
   for x = 1, window_cols do
-    blocks[1][x] = love.math.random(100) < block_probability
+    if love.math.random(100) < block_probability then
+      blocks[1][x] = block_c
+    else
+      blocks[1][x] = empty_c
+    end
   end
 end
