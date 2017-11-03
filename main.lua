@@ -10,7 +10,6 @@ char_height = 8
 window_cols = 6
 window_rows = 8
 block_rows = 8
-block_probability = 20
 empty_c = 0
 block_c = 1
 
@@ -22,36 +21,15 @@ function love.load()
   love.window.setTitle("Space Dodge")
   love.graphics.setDefaultFilter("nearest", "nearest") -- no blurring
 
-  -- Initialize ship
-
-  ship = {
-    x = window_cols / 2;
-    y = window_rows;
-    image = love.graphics.newImage("images/ship.png")
-  }
-
-  -- Set up blocks
-
-  block_image = love.graphics.newImage("images/block.png")
-
-  blocks = {}
-
-  for y = 1, block_rows do
-    blocks[y] = {}
-
-    for x = 1, window_cols do
-      blocks[y][x] = empty_c
-    end
-  end
-
-  -- Background
+  -- Images
 
   background = love.graphics.newImage("images/background.png")
+  block_image = love.graphics.newImage("images/block.png")
+  dead_image = love.graphics.newImage("images/dead.png")
 
-  -- Time
+  -- Game state
 
-  total_time = 0
-  step_time = 2
+  initialize_game()
 end
 
 function love.draw()
@@ -59,19 +37,25 @@ function love.draw()
 
   love.graphics.draw(background)
 
-  -- Draw blocks
+  if ship.dead then
+    -- Draw death
 
-  for y = 1, block_rows do
-    for x = 1, window_cols do
-      if blocks[y][x] == block_c then
-        draw_object(block_image, x, y)
+    draw_object(dead_image, 1, 1)
+  else
+    -- Draw blocks
+
+    for y = 1, block_rows do
+      for x = 1, window_cols do
+        if blocks[y][x] == block_c then
+          draw_object(block_image, x, y)
+        end
       end
     end
+
+    -- Draw ship
+
+    draw_object(ship.image, ship.x, ship.y)
   end
-
-  -- Draw ship
-
-  draw_object(ship.image, ship.x, ship.y)
 end
 
 function love.update(dt)
@@ -79,9 +63,12 @@ function love.update(dt)
 
   total_time = total_time + dt
 
-  if total_time > step_time then
-    total_time = 0
-    update_blocks()
+  if not ship.dead then
+    if total_time > step_time then
+      total_time = 0
+      update_blocks()
+      check_collision()
+    end
   end
 end
 
@@ -96,6 +83,48 @@ function love.keypressed(key)
     ship.y = ship.y + 1
   elseif key == "escape" then
     love.event.push("quit")
+  elseif ship.dead then
+    initialize_game()
+  end
+
+  check_collision()
+end
+
+-- Game stuff
+
+function initialize_game()
+  -- Initialize ship
+
+  ship = {
+    dead = false;
+    x = window_cols / 2;
+    y = window_rows;
+    image = love.graphics.newImage("images/ship.png");
+  }
+
+  -- Set up blocks
+
+  blocks = {}
+
+  for y = 1, block_rows do
+    blocks[y] = {}
+
+    for x = 1, window_cols do
+      blocks[y][x] = empty_c
+    end
+  end
+
+  block_probability = 20
+
+  -- Time
+
+  total_time = 0
+  step_time = 1
+end
+
+function check_collision()
+  if blocks[ship.y][ship.x] == block_c then
+    ship.dead = true
   end
 end
 
