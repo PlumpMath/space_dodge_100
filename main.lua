@@ -9,7 +9,8 @@ char_width = 6
 char_height = 8
 window_cols = 6
 window_rows = 8
-block_rows = 7
+block_rows = 8
+block_probability = 20
 
 -- Love stuff
 
@@ -40,6 +41,11 @@ function love.load()
       blocks[y][x] = false
     end
   end
+
+  -- Time
+
+  total_time = 0
+  step_time = 2
 end
 
 function love.draw()
@@ -56,6 +62,17 @@ function love.draw()
   -- Draw ship
 
   draw_object(ship.image, ship.x, ship.y)
+end
+
+function love.update(dt)
+  -- Update blocks at discrete time intervals
+
+  total_time = total_time + dt
+
+  if total_time > step_time then
+    total_time = 0
+    update_blocks()
+  end
 end
 
 function love.keypressed(key)
@@ -83,4 +100,20 @@ function draw_object(image, x, y)
   -- Draw image
 
   love.graphics.draw(image, x, y, 0, scale, scale)
+end
+
+function update_blocks()
+  -- Update all but first row, starting at bottom
+
+  for y = block_rows, 2, -1 do
+    for x = 1, window_cols do
+      blocks[y][x] = blocks[y - 1][x]
+    end
+  end
+
+  -- Update first row randomly
+
+  for x = 1, window_cols do
+    blocks[1][x] = love.math.random(100) < block_probability
+  end
 end
