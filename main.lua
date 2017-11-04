@@ -68,6 +68,9 @@ function love.draw()
 
   sfont.write("score", 9, 1)
   sfont.write(tostring(score), 9, 2)
+
+  sfont.write("high", 9, 4)
+  sfont.write(tostring(high_score), 9, 5)
 end
 
 function love.update(dt)
@@ -136,6 +139,10 @@ function initialize_game()
   total_time = 0
   step_time = 1
   score = 0
+
+  if high_score == nil then
+    high_score = 0
+  end
 end
 
 function check_collision()
@@ -146,6 +153,10 @@ end
 
 function update_score()
   score = score + 1
+
+  if score > high_score then
+    high_score = score
+  end
 end
 
 local levels = {
