@@ -9,6 +9,7 @@ char_width = 6
 char_height = 8
 window_cols = 6
 window_rows = 8
+block_cols = 6
 block_rows = 8
 empty_c = 0
 block_c = 1
@@ -17,7 +18,7 @@ block_c = 1
 
 function love.load()
   -- Set up window
-  love.window.setMode(6 * char_width * scale, 8 * char_height * scale)
+  love.window.setMode(window_cols * char_width * scale, window_rows * char_height * scale)
   love.window.setTitle("Space Dodge")
   love.graphics.setDefaultFilter("nearest", "nearest") -- no blurring
 
@@ -45,7 +46,7 @@ function love.draw()
     -- Draw blocks
 
     for y = 1, block_rows do
-      for x = 1, window_cols do
+      for x = 1, block_cols do
         if blocks[y][x] == block_c then
           draw_object(block_image, x, y)
         end
@@ -73,13 +74,13 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-  if key == "right" and ship.x < window_cols then
+  if key == "right" and ship.x < block_cols then
     ship.x = ship.x + 1
   elseif key == "left" and ship.x > 1 then
     ship.x = ship.x - 1
   elseif key == "up" and ship.y > 1 then
     ship.y = ship.y - 1
-  elseif key == "down" and ship.y < window_rows then
+  elseif key == "down" and ship.y < block_rows then
     ship.y = ship.y + 1
   elseif key == "escape" then
     love.event.push("quit")
@@ -97,8 +98,8 @@ function initialize_game()
 
   ship = {
     dead = false;
-    x = window_cols / 2;
-    y = window_rows;
+    x = block_cols / 2;
+    y = block_rows;
     image = love.graphics.newImage("images/ship.png");
   }
 
@@ -109,7 +110,7 @@ function initialize_game()
   for y = 1, block_rows do
     blocks[y] = {}
 
-    for x = 1, window_cols do
+    for x = 1, block_cols do
       blocks[y][x] = empty_c
     end
   end
@@ -145,14 +146,14 @@ function update_blocks()
   -- Update all but first row, starting at bottom
 
   for y = block_rows, 2, -1 do
-    for x = 1, window_cols do
+    for x = 1, block_cols do
       blocks[y][x] = blocks[y - 1][x]
     end
   end
 
   -- Update first row randomly
 
-  for x = 1, window_cols do
+  for x = 1, block_cols do
     if love.math.random(100) < block_probability then
       blocks[1][x] = block_c
     else
