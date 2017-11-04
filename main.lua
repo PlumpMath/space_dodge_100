@@ -80,7 +80,9 @@ function love.update(dt)
       total_time = 0
       update_blocks()
       check_collision()
-      score = score + 1
+
+      update_score()
+      update_level()
     end
   end
 end
@@ -139,6 +141,29 @@ end
 function check_collision()
   if blocks[ship.y][ship.x] == block_c then
     ship.dead = true
+  end
+end
+
+function update_score()
+  score = score + 1
+end
+
+local levels = {
+  [25] = 0.80;
+  [40] = 0.70;
+  [60] = 0.60;
+  [75] = 0.50;
+  [100] = 0.40;
+  [150] = 0.35;
+  [200] = 0.30;
+  [250] = 0.25;
+  [300] = 0.20;
+  [400] = 0.15;
+}
+
+function update_level()
+  if levels[score] then
+    step_time = levels[score]
   end
 end
 
