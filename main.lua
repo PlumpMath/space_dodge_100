@@ -2,12 +2,14 @@
 -- Character: 8 pixels tall, 6 pixels wide
 -- Screen: 64 pixels tall (8 characters)
 
+require "sfont"
+
 -- Constants
 
 scale = 10
 char_width = 6
 char_height = 8
-window_cols = 6
+window_cols = 14
 window_rows = 8
 block_cols = 6
 block_rows = 8
@@ -26,7 +28,7 @@ function love.load()
 
   background = love.graphics.newImage("images/background.png")
   block_image = love.graphics.newImage("images/block.png")
-  dead_image = love.graphics.newImage("images/dead.png")
+  checker_image = love.graphics.newImage("images/checker.png")
 
   -- Game state
 
@@ -41,7 +43,7 @@ function love.draw()
   if ship.dead then
     -- Draw death
 
-    draw_object(dead_image, 1, 1)
+    show_death()
   else
     -- Draw blocks
 
@@ -57,6 +59,15 @@ function love.draw()
 
     draw_object(ship.image, ship.x, ship.y)
   end
+
+  -- Draw score
+
+  for y = 1, block_rows do
+    draw_object(checker_image, 7, y)
+  end
+
+  sfont.write("score", 9, 1)
+  sfont.write(tostring(score), 9, 2)
 end
 
 function love.update(dt)
@@ -69,6 +80,7 @@ function love.update(dt)
       total_time = 0
       update_blocks()
       check_collision()
+      score = score + 1
     end
   end
 end
@@ -121,12 +133,20 @@ function initialize_game()
 
   total_time = 0
   step_time = 1
+  score = 0
 end
 
 function check_collision()
   if blocks[ship.y][ship.x] == block_c then
     ship.dead = true
   end
+end
+
+function show_death()
+  sfont.write("ship", 1, 1)
+  sfont.write("lost", 1, 2)
+  sfont.write("try", 1, 4)
+  sfont.write("again", 1, 5)
 end
 
 -- Helpers
