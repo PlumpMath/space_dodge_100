@@ -152,7 +152,7 @@ function update_score()
 end
 
 local levels = {
-  [25] = 0.80;
+  [20] = 0.80;
   [40] = 0.70;
   [60] = 0.60;
   [75] = 0.50;
