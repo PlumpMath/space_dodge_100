@@ -54,11 +54,14 @@ function love.draw()
     draw_object(checker_image, 7, y)
   end
 
-  sfont.write("score", 9, 1)
-  sfont.write(tostring(score), 9, 2)
+  sfont.write("level", 9, 1)
+  sfont.write(tostring(level), 9, 2)
 
-  sfont.write("high", 9, 4)
-  sfont.write(tostring(high_score), 9, 5)
+  sfont.write("score", 9, 4)
+  sfont.write(tostring(score), 9, 5)
+
+  sfont.write("high", 9, 7)
+  sfont.write(tostring(high_score), 9, 8)
 end
 
 function love.update(dt)
@@ -127,6 +130,7 @@ function initialize_game()
   total_time = 0
   step_time = 1
   score = 0
+  level = 1
 
   if high_score == nil then
     high_score = 0
@@ -163,6 +167,7 @@ local levels = {
 function update_level()
   if levels[score] then
     step_time = levels[score]
+    level = level + 1
   end
 end
 
