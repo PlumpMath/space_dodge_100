@@ -29,6 +29,7 @@ function love.load()
   background = love.graphics.newImage("images/background.png")
   block_image = love.graphics.newImage("images/block.png")
   checker_image = love.graphics.newImage("images/checker.png")
+  block_batch = love.graphics.newSpriteBatch(block_image, 48, "dynamic")
 
   -- Game state
 
@@ -41,22 +42,9 @@ function love.draw()
   love.graphics.draw(background)
 
   if ship.dead then
-    -- Draw death
-
     show_death()
   else
-    -- Draw blocks
-
-    for y = 1, block_rows do
-      for x = 1, block_cols do
-        if blocks[y][x] == block_c then
-          draw_object(block_image, x, y)
-        end
-      end
-    end
-
-    -- Draw ship
-
+    draw_blocks()
     draw_object(ship.image, ship.x, ship.y)
   end
 
@@ -185,7 +173,27 @@ function show_death()
   sfont.write("again", 1, 5)
 end
 
+function draw_blocks()
+  for y = 1, block_rows do
+    for x = 1, block_cols do
+      if blocks[y][x] == block_c then
+        add_block(x, y)
+      end
+    end
+  end
+
+  love.graphics.draw(block_batch, 0, 0)
+  block_batch:clear()
+end
+
 -- Helpers
+
+function add_block(x, y)
+  x = (x - 1) * char_width * scale
+  y = (y - 1) * char_height * scale
+
+  block_batch:add(x, y, 0, scale, scale)
+end
 
 function draw_object(image, x, y)
   -- Scale coordinates
