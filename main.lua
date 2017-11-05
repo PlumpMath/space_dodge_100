@@ -82,18 +82,32 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-  if (key == "right" or key == "d") and ship.x < block_cols then
-    ship.x = ship.x + 1
-  elseif (key == "left" or key == "a") and ship.x > 1 then
-    ship.x = ship.x - 1
-  elseif (key == "up" or key == "w") and ship.y > 1 then
-    ship.y = ship.y - 1
-  elseif (key == "down" or key == "s") and ship.y < block_rows then
-    ship.y = ship.y + 1
-  elseif key == "escape" then
-    love.event.push("quit")
-  elseif ship.dead then
-    initialize_game()
+  if ship.dead then
+    if key == "escape" then
+      love.event.push("quit")
+    elseif key ~= "right" and
+      key ~= "left" and
+      key ~= "up" and
+      key ~= "down" and
+      key ~= "a" and
+      key ~= "s" and
+      key ~= "w" and
+      key ~= "d" then
+
+      initialize_game()
+    end
+  else
+    if (key == "right" or key == "d") and ship.x < block_cols then
+      ship.x = ship.x + 1
+    elseif (key == "left" or key == "a") and ship.x > 1 then
+      ship.x = ship.x - 1
+    elseif (key == "up" or key == "w") and ship.y > 1 then
+      ship.y = ship.y - 1
+    elseif (key == "down" or key == "s") and ship.y < block_rows then
+      ship.y = ship.y + 1
+    elseif key == "escape" then
+      love.event.push("quit")
+    end
   end
 
   check_collision()
