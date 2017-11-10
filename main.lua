@@ -23,6 +23,7 @@ function love.load()
   love.window.setMode(window_cols * char_width * scale, window_rows * char_height * scale)
   love.window.setTitle("Space Dodge 100")
   love.graphics.setDefaultFilter("nearest", "nearest") -- no blurring
+  love.window.setIcon(love.graphics.newImage("images/ship.png"):getData())
 
   -- Images
 
