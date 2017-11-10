@@ -6,10 +6,10 @@ require "sfont"
 
 -- Constants
 
-scale = 10
+scale = 5
 char_width = 6
 char_height = 8
-window_cols = 14
+window_cols = 40
 window_rows = 8
 block_cols = 6
 block_rows = 8
@@ -26,7 +26,7 @@ function love.load()
 
   -- Images
 
-  background = love.graphics.newImage("images/background.png")
+  background = love.graphics.newImage("images/background-wide.png")
   block_image = love.graphics.newImage("images/block.png")
   checker_image = love.graphics.newImage("images/checker.png")
   block_batch = love.graphics.newSpriteBatch(block_image, 48, "dynamic")
