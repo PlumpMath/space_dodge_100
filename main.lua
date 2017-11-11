@@ -23,6 +23,7 @@ function love.load()
   love.window.setMode(window_cols * char_width * scale, window_rows * char_height * scale)
   love.window.setTitle("Space Dodge 100")
   love.graphics.setDefaultFilter("nearest", "nearest") -- no blurring
+  love.window.setIcon(love.graphics.newImage("images/ship.png"):getData())
 
   -- Images
 
@@ -31,15 +32,15 @@ function love.load()
   checker_image = love.graphics.newImage("images/checker.png")
   block_batch = love.graphics.newSpriteBatch(block_image, 48, "dynamic")
 
+  bg_canvas = setup_canvas()
+
   -- Game state
 
   initialize_game()
 end
 
 function love.draw()
-  -- Draw background
-
-  love.graphics.draw(background)
+  love.graphics.draw(bg_canvas)
 
   if ship.dead then
     show_death()
@@ -50,17 +51,10 @@ function love.draw()
 
   -- Draw score
 
-  for y = 1, block_rows do
-    draw_object(checker_image, 7, y)
-  end
-
-  sfont.write("level", 9, 1)
   sfont.write(tostring(level), 9, 2)
 
-  sfont.write("score", 9, 4)
   sfont.write(tostring(score), 9, 5)
 
-  sfont.write("high", 9, 7)
   sfont.write(tostring(high_score), 9, 8)
 end
 
@@ -206,6 +200,27 @@ function draw_blocks()
 end
 
 -- Helpers
+
+function setup_canvas()
+  local canvas = love.graphics.newCanvas(window_cols * char_width * scale, window_rows * char_height * scale)
+  love.graphics.setCanvas(canvas)
+
+  love.graphics.draw(background)
+
+  for y = 1, block_rows do
+    draw_object(checker_image, 7, y) -- divider
+  end
+
+  sfont.write("level", 9, 1)
+
+  sfont.write("score", 9, 4)
+
+  sfont.write("high", 9, 7)
+
+  love.graphics.setCanvas()
+
+  return canvas
+end
 
 function add_block(x, y)
   x = (x - 1) * char_width * scale
