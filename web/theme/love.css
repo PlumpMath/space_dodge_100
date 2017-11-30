@@ -8,12 +8,10 @@ h1 {
 }
 
 body {
-    background-image: url(bg.png);
-    background-repeat: no-repeat;
     font-family: arial;
     margin: 0;
     padding: none;
-    background-color: rgb( 154, 205, 237 );
+    background-color: black;
     color: rgb( 28, 78, 104 );
 }
 
@@ -49,5 +47,11 @@ a:hover {
 
 #canvasborder {
   width: 1530px;
+  margin-top: 15px;
   background: url(model_100.jpg) top right no-repeat;
+}
+
+div#logo {
+    margin-right: auto;
+    background-color: white;
 }

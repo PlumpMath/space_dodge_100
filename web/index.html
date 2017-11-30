@@ -11,7 +11,9 @@
   <body>
     <center>
       <div>
-        <h1>Game Title</h1>
+        <div id="logo">
+            <img src="theme/logo.png" />
+        </div>
         <div id="canvasborder">
           <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
         </div>
@@ -82,6 +84,7 @@
           if (text) Module.printErr('[post-exception status] ' + text);
         };
       };
+      window.onclick = function(){window.focus()};
     </script>
     <script type="text/javascript" src="game.js"></script>
     <script async type="text/javascript" src="love.js"></script>
