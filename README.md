@@ -15,6 +15,8 @@ To run:
 
 Use left, right, up, down arrow keys or WASD to move.
 
+Press `p` to pause.
+
 ## Background
 
 A long time ago I was given a [TRS-80 Model 100](https://en.wikipedia.org/wiki/TRS-80_Model_100).
