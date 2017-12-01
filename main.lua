@@ -37,12 +37,16 @@ function love.load()
   -- Game state
 
   initialize_game()
+  show_start()
 end
 
 function love.draw()
   love.graphics.draw(bg_canvas)
 
-  if ship.dead then
+  if start_screen then
+    show_start()
+    return
+  elseif ship.dead then
     show_death()
   else
     draw_blocks()
@@ -76,7 +80,7 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-  if ship.dead then
+  if ship.dead or start_screen then
     if key == "escape" then
       love.event.push("quit")
     elseif key ~= "right" and
@@ -88,6 +92,7 @@ function love.keypressed(key)
       key ~= "w" and
       key ~= "d" then
 
+      start_screen = false
       initialize_game()
     end
   else
@@ -184,6 +189,15 @@ function show_death()
   sfont.write("lost", 1, 2)
   sfont.write("try", 1, 4)
   sfont.write("again", 1, 5)
+end
+
+function show_start()
+  start_screen = true
+  paused = true
+  sfont.write("press", 1, 2)
+  sfont.write("enter", 1, 3)
+  sfont.write(" to ", 1, 4)
+  sfont.write("start", 1, 5)
 end
 
 function draw_blocks()
