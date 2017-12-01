@@ -1,6 +1,8 @@
-# Space Dodge 100 
+![Space Dodge 100](https://img.itch.zone/aW1nLzkzMTU0OS5wbmc=/original/hmMlZ2.png)
 
-This is a game for the [GitHub 2017 GameOff](https://itch.io/jam/game-off-2017).
+This is a game for the [GitHub 2017 GameOff](https://itch.io/jam/game-off-2017) (theme: "Throwback").
+
+You can play it [on itch.io](https://presidentbeef.itch.io/space-dodge-100).
 
 ## Running
 
