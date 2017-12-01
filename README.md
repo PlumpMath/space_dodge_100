@@ -34,6 +34,8 @@ Note: the "spaceship" is not part of the Model 100 character set, so I did cheat
 
 The font is adapted from Tom 7's [snoot.org pixel10](http://fonts.tom7.com/fonts98.html). 
 
+The web version uses [love.js](https://github.com/TannerRogalsky/love.js/).
+
 ## License
 
 MIT
