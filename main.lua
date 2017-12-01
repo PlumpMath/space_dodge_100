@@ -63,6 +63,10 @@ function love.draw()
 end
 
 function love.update(dt)
+  if paused then
+    return
+  end
+
   -- Update blocks at discrete time intervals
 
   total_time = total_time + dt
@@ -93,8 +97,13 @@ function love.keypressed(key)
       key ~= "d" then
 
       start_screen = false
+      unpause()
       initialize_game()
     end
+  elseif paused then
+    unpause()
+  elseif key == "p" then
+    pause()
   else
     if (key == "right" or key == "d") and ship.x < block_cols then
       ship.x = ship.x + 1
@@ -198,6 +207,14 @@ function show_start()
   sfont.write("enter", 1, 3)
   sfont.write(" to ", 1, 4)
   sfont.write("start", 1, 5)
+end
+
+function pause()
+  paused = true
+end
+
+function unpause()
+  paused = false
 end
 
 function draw_blocks()
